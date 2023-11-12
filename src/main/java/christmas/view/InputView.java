@@ -11,4 +11,9 @@ public class InputView {
         String input = Console.readLine();
         return parseInt(input);
     }
+
+    public static String readMenu() {
+        OutputView.printInputMenu();
+        return Console.readLine();
+    }
 }
