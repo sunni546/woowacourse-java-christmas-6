@@ -1,5 +1,6 @@
 package christmas.view;
 
+import static christmas.view.message.SystemMessage.GIFT_MENU;
 import static christmas.view.message.SystemMessage.INPUT_DATE;
 import static christmas.view.message.SystemMessage.INPUT_MENU;
 import static christmas.view.message.SystemMessage.INTRO;
@@ -30,5 +31,9 @@ public class OutputView {
 
     public static void printUndiscountedOrderTotal(int price) {
         System.out.printf(UNDISCOUNTED_ORDER_TOTAL.getMessage(), price);
+    }
+
+    public static void printGiftMenu(String gift) {
+        System.out.printf(GIFT_MENU.getMessage(), gift);
     }
 }

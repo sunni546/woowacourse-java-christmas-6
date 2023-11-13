@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import static christmas.MenuType.CHAMPAGNE;
+
 import christmas.MenuType;
 import java.util.HashMap;
 import java.util.Set;
@@ -8,6 +10,7 @@ public class Order {
     private static final String MENU_SEPARATOR = ",";
     private static final String ORDER_SEPARATOR = "-";
     private static final String ORDER_OUTPUT_FORMAT = "%s %d개\n";
+    private static final String NO_CONTENT = "없음\n";
 
     private final HashMap<MenuType, Integer> orders;
 
@@ -44,5 +47,13 @@ public class Order {
         }
 
         return undiscountedOrderTotal;
+    }
+
+    public String getGiftMenu() {
+        Event event = new Event();
+        if (event.hasGiftEvent(getUndiscountedOrderTotal())) {
+            return String.format(ORDER_OUTPUT_FORMAT, CHAMPAGNE.getName(), 1);
+        }
+        return NO_CONTENT;
     }
 }
