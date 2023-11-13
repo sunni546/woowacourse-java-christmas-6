@@ -6,6 +6,7 @@ import static christmas.view.message.SystemMessage.INPUT_MENU;
 import static christmas.view.message.SystemMessage.INTRO;
 import static christmas.view.message.SystemMessage.ORDERED_MENU;
 import static christmas.view.message.SystemMessage.PREVIEW_EVENT_BENEFITS;
+import static christmas.view.message.SystemMessage.PROMOTION_DETAILS;
 import static christmas.view.message.SystemMessage.UNDISCOUNTED_ORDER_TOTAL;
 
 public class OutputView {
@@ -35,5 +36,9 @@ public class OutputView {
 
     public static void printGiftMenu(String gift) {
         System.out.printf(GIFT_MENU.getMessage(), gift);
+    }
+
+    public static void printPromotionDetails(StringBuilder promotionDetails) {
+        System.out.printf(PROMOTION_DETAILS.getMessage(), promotionDetails);
     }
 }

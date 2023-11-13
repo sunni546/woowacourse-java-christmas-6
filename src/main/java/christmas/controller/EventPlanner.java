@@ -19,6 +19,6 @@ public class EventPlanner {
 
         Promotion promotion = new Promotion(order);
         OutputView.printGiftMenu(promotion.getGiftMenu());
-        promotion.getDetails();
+        OutputView.printPromotionDetails(promotion.getDetails());
     }
 }

@@ -7,7 +7,8 @@ public enum SystemMessage {
     PREVIEW_EVENT_BENEFITS("12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n"),
     ORDERED_MENU("\n<주문 메뉴>\n%s"),
     UNDISCOUNTED_ORDER_TOTAL("\n<할인 전 총주문 금액>\n%,d원\n"),
-    GIFT_MENU("\n<증정 메뉴>\n%s");
+    GIFT_MENU("\n<증정 메뉴>\n%s"),
+    PROMOTION_DETAILS("\n<혜택 내역>\n%s");
 
     private final String message;
 
