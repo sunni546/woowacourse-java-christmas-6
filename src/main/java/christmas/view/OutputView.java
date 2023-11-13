@@ -1,5 +1,6 @@
 package christmas.view;
 
+import static christmas.view.message.SystemMessage.DECEMBER_EVENT_BADGE;
 import static christmas.view.message.SystemMessage.DISCOUNTED_PAYMENT_TOTAL;
 import static christmas.view.message.SystemMessage.GIFT_MENU;
 import static christmas.view.message.SystemMessage.INPUT_DATE;
@@ -50,5 +51,9 @@ public class OutputView {
 
     public static void printDiscountedPaymentTotal(int amount) {
         System.out.printf(DISCOUNTED_PAYMENT_TOTAL.getMessage(), amount);
+    }
+
+    public static void printDecemberEventBadge(String badge) {
+        System.out.printf(DECEMBER_EVENT_BADGE.getMessage(), badge);
     }
 }

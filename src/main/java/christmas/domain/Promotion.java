@@ -13,6 +13,7 @@ import static christmas.config.MenuGroup.MAIN;
 import static christmas.config.MenuType.CHAMPAGNE;
 import static christmas.domain.Order.ORDER_OUTPUT_FORMAT;
 
+import christmas.config.BadgeType;
 import christmas.config.EventType;
 import christmas.config.MenuGroup;
 import christmas.config.MenuType;
@@ -143,5 +144,15 @@ public class Promotion {
         }
 
         return totalDiscountAmount;
+    }
+
+    public String getDecemberEventBadge() {
+        BadgeType badge = BadgeType.determineBadgeByPrice(getTotalBenefitAmount());
+
+        if (badge != null) {
+            return badge.getName() + "\n";
+        }
+
+        return NO_CONTENT;
     }
 }
