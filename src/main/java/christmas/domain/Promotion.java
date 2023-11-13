@@ -132,7 +132,7 @@ public class Promotion {
         return 0;
     }
 
-    private int calculateTotalDiscountAmount() {
+    public int calculateTotalDiscountAmount() {
         int totalDiscountAmount = 0;
 
         Set<EventType> eventTypes = details.keySet();

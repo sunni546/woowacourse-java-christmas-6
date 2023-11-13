@@ -21,5 +21,8 @@ public class EventPlanner {
         OutputView.printGiftMenu(promotion.getGiftMenu());
         OutputView.printPromotionDetails(promotion.getDetails());
         OutputView.printTotalBenefitAmount(promotion.getTotalBenefitAmount());
+
+        int discountedPaymentTotal = order.getUndiscountedOrderTotal() - promotion.calculateTotalDiscountAmount();
+        OutputView.printDiscountedPaymentTotal(discountedPaymentTotal);
     }
 }

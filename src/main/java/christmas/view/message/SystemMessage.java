@@ -9,7 +9,8 @@ public enum SystemMessage {
     UNDISCOUNTED_ORDER_TOTAL("\n<할인 전 총주문 금액>\n%,d원\n"),
     GIFT_MENU("\n<증정 메뉴>\n%s"),
     PROMOTION_DETAILS("\n<혜택 내역>\n%s"),
-    TOTAL_BENEFIT_AMOUNT("\n<총혜택 금액>\n%,d원\n");
+    TOTAL_BENEFIT_AMOUNT("\n<총혜택 금액>\n%,d원\n"),
+    DISCOUNTED_PAYMENT_TOTAL("\n<할인 후 예상 결제 금액>\n%,d원\n");
 
     private final String message;
 

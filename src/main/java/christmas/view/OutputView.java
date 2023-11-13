@@ -1,5 +1,6 @@
 package christmas.view;
 
+import static christmas.view.message.SystemMessage.DISCOUNTED_PAYMENT_TOTAL;
 import static christmas.view.message.SystemMessage.GIFT_MENU;
 import static christmas.view.message.SystemMessage.INPUT_DATE;
 import static christmas.view.message.SystemMessage.INPUT_MENU;
@@ -45,5 +46,9 @@ public class OutputView {
 
     public static void printTotalBenefitAmount(int amount) {
         System.out.printf(TOTAL_BENEFIT_AMOUNT.getMessage(), -amount);
+    }
+
+    public static void printDiscountedPaymentTotal(int amount) {
+        System.out.printf(DISCOUNTED_PAYMENT_TOTAL.getMessage(), amount);
     }
 }
