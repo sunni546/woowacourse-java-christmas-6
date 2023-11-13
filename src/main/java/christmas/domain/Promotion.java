@@ -1,5 +1,9 @@
 package christmas.domain;
 
+import static christmas.config.AmountType.CHRISTMAS_INCREMENT;
+import static christmas.config.AmountType.DECEMBER_DISCOUNT;
+import static christmas.config.AmountType.DEFAULT_DISCOUNT;
+import static christmas.config.EventType.CHRISTMAS_DISCOUNT;
 import static christmas.config.EventType.GIFT_EVENT;
 import static christmas.config.EventType.SPECIAL_DISCOUNT;
 import static christmas.config.EventType.WEEKDAY_DISCOUNT;
@@ -17,23 +21,22 @@ import java.util.Set;
 public class Promotion {
     private static final String NO_CONTENT = "없음\n";
     private static final String PROMOTION_OUTPUT_FORMAT = "%s: -%,d원\n";
-    private static final int SPECIAL_DISCOUNT_AMOUNT = 1000;
-    private static final int DECEMBER_DISCOUNT_AMOUNT = 2023;
 
     private final Event event;
     private final StringBuilder details;
 
     public Promotion(Order order) {
         StringBuilder details = new StringBuilder();
-        Event event = new Event(order.getUndiscountedOrderTotal());
         int date = order.getDate();
 
-        addGiftEventDetails(details, event);
-        addSpecialDiscountDetails(details, event, date);
-        addWeekendDiscountDetails(details, event, date, order);
-        addWeekdayDiscountDetails(details, event, date, order);
+        this.event = new Event(order.getUndiscountedOrderTotal());
 
-        this.event = event;
+        addGiftEventDetails(details);
+        addSpecialDiscountDetails(details, date);
+        addWeekendDiscountDetails(details, date, order);
+        addWeekdayDiscountDetails(details, date, order);
+        addChristmasDiscountDetails(details, date);
+
         this.details = details;
     }
 
@@ -48,7 +51,6 @@ public class Promotion {
         if (details.length() == 0) {
             return new StringBuilder(NO_CONTENT);
         }
-
         return details;
     }
 
@@ -56,33 +58,35 @@ public class Promotion {
         details.append(String.format(PROMOTION_OUTPUT_FORMAT, title, price));
     }
 
-    private void addGiftEventDetails(StringBuilder details, Event event) {
+    private void addGiftEventDetails(StringBuilder details) {
         if (event.hasGiftEvent()) {
             addPromotionDetail(details, GIFT_EVENT.getTitle(), CHAMPAGNE.getPrice());
         }
     }
 
-    private void addSpecialDiscountDetails(StringBuilder details, Event event, int date) {
+    private void addSpecialDiscountDetails(StringBuilder details, int date) {
         if (event.canApplySpecialDiscount(date)) {
-            addPromotionDetail(details, SPECIAL_DISCOUNT.getTitle(), SPECIAL_DISCOUNT_AMOUNT);
+            addPromotionDetail(details, SPECIAL_DISCOUNT.getTitle(), DEFAULT_DISCOUNT.getAmount());
         }
     }
 
-    private void addWeekendDiscountDetails(StringBuilder details, Event event, int date, Order order) {
+    private void addWeekendDiscountDetails(StringBuilder details, int date, Order order) {
         if (event.canApplyWeekendDiscount(date)) {
-            int discountAmount = calculateDiscount(order.getOrders(), MAIN);
+            int discountAmount = calculateDecemberDiscount(order.getOrders(), MAIN);
+
             addPromotionDetail(details, WEEKEND_DISCOUNT.getTitle(), discountAmount);
         }
     }
 
-    private void addWeekdayDiscountDetails(StringBuilder details, Event event, int date, Order order) {
+    private void addWeekdayDiscountDetails(StringBuilder details, int date, Order order) {
         if (event.canApplyWeekdayDiscount(date)) {
-            int discountAmount = calculateDiscount(order.getOrders(), DESSERT);
+            int discountAmount = calculateDecemberDiscount(order.getOrders(), DESSERT);
+
             addPromotionDetail(details, WEEKDAY_DISCOUNT.getTitle(), discountAmount);
         }
     }
 
-    private int calculateDiscount(HashMap<MenuType, Integer> orders, MenuGroup menuGroup) {
+    private int calculateDecemberDiscount(HashMap<MenuType, Integer> orders, MenuGroup menuGroup) {
         int count = 0;
 
         Set<MenuType> menuTypes = orders.keySet();
@@ -92,6 +96,19 @@ public class Promotion {
             }
         }
 
-        return DECEMBER_DISCOUNT_AMOUNT * count;
+        return DECEMBER_DISCOUNT.getAmount() * count;
+    }
+
+    private void addChristmasDiscountDetails(StringBuilder details, int date) {
+        if (event.canApplyChristmasDiscount(date)) {
+            int discountAmount = calculateChristmasDiscount(date);
+
+            addPromotionDetail(details, CHRISTMAS_DISCOUNT.getTitle(), discountAmount);
+        }
+    }
+
+    private int calculateChristmasDiscount(int date) {
+        int discountAmountByDays = CHRISTMAS_INCREMENT.getAmount() * event.getDaysUntilChristmas(date);
+        return DEFAULT_DISCOUNT.getAmount() + discountAmountByDays;
     }
 }
