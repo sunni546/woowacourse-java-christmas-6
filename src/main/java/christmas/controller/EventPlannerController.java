@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.domain.Order;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -9,5 +10,8 @@ public class EventPlannerController {
         String menu = InputView.readMenu();
 
         OutputView.printDate(date);
+
+        Order order = new Order(menu);
+        OutputView.printMenu(order.getOrderedMenu());
     }
 }
