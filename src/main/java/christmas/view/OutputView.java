@@ -5,6 +5,7 @@ import static christmas.view.message.SystemMessage.INPUT_MENU;
 import static christmas.view.message.SystemMessage.INTRO;
 import static christmas.view.message.SystemMessage.ORDERED_MENU;
 import static christmas.view.message.SystemMessage.PREVIEW_EVENT_BENEFITS;
+import static christmas.view.message.SystemMessage.UNDISCOUNTED_ORDER_TOTAL;
 
 public class OutputView {
     public static void printIntro() {
@@ -23,7 +24,11 @@ public class OutputView {
         System.out.printf(PREVIEW_EVENT_BENEFITS.getMessage(), date);
     }
 
-    public static void printMenu(String menu) {
+    public static void printOrderedMenu(StringBuilder menu) {
         System.out.printf(ORDERED_MENU.getMessage(), menu);
+    }
+
+    public static void printUndiscountedOrderTotal(int price) {
+        System.out.printf(UNDISCOUNTED_ORDER_TOTAL.getMessage(), price);
     }
 }

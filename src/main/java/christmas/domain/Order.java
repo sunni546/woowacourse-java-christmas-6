@@ -2,10 +2,12 @@ package christmas.domain;
 
 import christmas.MenuType;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Order {
     private static final String MENU_SEPARATOR = ",";
     private static final String ORDER_SEPARATOR = "-";
+    private static final String ORDER_OUTPUT_FORMAT = "%s %d개\n";
 
     private final HashMap<MenuType, Integer> orders;
 
@@ -25,11 +27,22 @@ public class Order {
         return orders;
     }
 
-    public String getOrderedMenu() {
+    public StringBuilder getOrderedMenu() {
         StringBuilder orderedMenu = new StringBuilder();
         orders.forEach((menuType, number) -> {
-            orderedMenu.append(String.format("%s %d개\n", menuType.getName(), number));
+            orderedMenu.append(String.format(ORDER_OUTPUT_FORMAT, menuType.getName(), number));
         });
-        return String.valueOf(orderedMenu);
+
+        return orderedMenu;
+    }
+
+    public int getUndiscountedOrderTotal() {
+        int undiscountedOrderTotal = 0;
+        Set<MenuType> menuTypes = orders.keySet();
+        for (MenuType menuType : menuTypes) {
+            undiscountedOrderTotal += menuType.getPrice() * orders.get(menuType);
+        }
+
+        return undiscountedOrderTotal;
     }
 }

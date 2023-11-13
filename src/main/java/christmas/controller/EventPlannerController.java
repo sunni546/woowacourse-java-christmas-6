@@ -12,6 +12,7 @@ public class EventPlannerController {
         OutputView.printDate(date);
 
         Order order = new Order(menu);
-        OutputView.printMenu(order.getOrderedMenu());
+        OutputView.printOrderedMenu(order.getOrderedMenu());
+        OutputView.printUndiscountedOrderTotal(order.getUndiscountedOrderTotal());
     }
 }
