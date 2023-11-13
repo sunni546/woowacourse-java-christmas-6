@@ -13,6 +13,7 @@ import static christmas.config.MenuGroup.MAIN;
 import static christmas.config.MenuType.CHAMPAGNE;
 import static christmas.domain.Order.ORDER_OUTPUT_FORMAT;
 
+import christmas.config.EventType;
 import christmas.config.MenuGroup;
 import christmas.config.MenuType;
 import java.util.HashMap;
@@ -23,21 +24,11 @@ public class Promotion {
     private static final String PROMOTION_OUTPUT_FORMAT = "%s: -%,d원\n";
 
     private final Event event;
-    private final StringBuilder details;
+    private final HashMap<EventType, Integer> details;
 
     public Promotion(Order order) {
-        StringBuilder details = new StringBuilder();
-        int date = order.getDate();
-
         this.event = new Event(order.getUndiscountedOrderTotal());
-
-        addGiftEventDetails(details);
-        addSpecialDiscountDetails(details, date);
-        addWeekendDiscountDetails(details, date, order);
-        addWeekdayDiscountDetails(details, date, order);
-        addChristmasDiscountDetails(details, date);
-
-        this.details = details;
+        this.details = makeDetails(order);
     }
 
     public String getGiftMenu() {
@@ -47,42 +38,51 @@ public class Promotion {
         return NO_CONTENT;
     }
 
-    public StringBuilder getDetails() {
-        if (details.length() == 0) {
-            return new StringBuilder(NO_CONTENT);
-        }
+    public HashMap<EventType, Integer> makeDetails(Order order) {
+        HashMap<EventType, Integer> details = new HashMap<>();
+
+        makeGiftEventDetail(details);
+        makeSpecialDiscountDetail(details, order.getDate());
+        makeWeekendDiscountDetail(details, order);
+        makeWeekdayDiscountDetail(details, order);
+        makeChristmasDiscountDetail(details, order.getDate());
+
         return details;
     }
 
-    private void addPromotionDetail(StringBuilder details, String title, int price) {
-        details.append(String.format(PROMOTION_OUTPUT_FORMAT, title, price));
-    }
-
-    private void addGiftEventDetails(StringBuilder details) {
+    private void makeGiftEventDetail(HashMap<EventType, Integer> details) {
         if (event.hasGiftEvent()) {
-            addPromotionDetail(details, GIFT_EVENT.getTitle(), CHAMPAGNE.getPrice());
+            details.put(GIFT_EVENT, CHAMPAGNE.getPrice());
         }
     }
 
-    private void addSpecialDiscountDetails(StringBuilder details, int date) {
+    private void makeSpecialDiscountDetail(HashMap<EventType, Integer> details, int date) {
         if (event.canApplySpecialDiscount(date)) {
-            addPromotionDetail(details, SPECIAL_DISCOUNT.getTitle(), DEFAULT_DISCOUNT.getAmount());
+            details.put(SPECIAL_DISCOUNT, DEFAULT_DISCOUNT.getAmount());
         }
     }
 
-    private void addWeekendDiscountDetails(StringBuilder details, int date, Order order) {
-        if (event.canApplyWeekendDiscount(date)) {
+    private void makeWeekendDiscountDetail(HashMap<EventType, Integer> details, Order order) {
+        if (event.canApplyWeekendDiscount(order.getDate())) {
             int discountAmount = calculateDecemberDiscount(order.getOrders(), MAIN);
 
-            addPromotionDetail(details, WEEKEND_DISCOUNT.getTitle(), discountAmount);
+            details.put(WEEKEND_DISCOUNT, discountAmount);
         }
     }
 
-    private void addWeekdayDiscountDetails(StringBuilder details, int date, Order order) {
-        if (event.canApplyWeekdayDiscount(date)) {
+    private void makeWeekdayDiscountDetail(HashMap<EventType, Integer> details, Order order) {
+        if (event.canApplyWeekdayDiscount(order.getDate())) {
             int discountAmount = calculateDecemberDiscount(order.getOrders(), DESSERT);
 
-            addPromotionDetail(details, WEEKDAY_DISCOUNT.getTitle(), discountAmount);
+            details.put(WEEKDAY_DISCOUNT, discountAmount);
+        }
+    }
+
+    private void makeChristmasDiscountDetail(HashMap<EventType, Integer> details, int date) {
+        if (event.canApplyChristmasDiscount(date)) {
+            int discountAmount = calculateChristmasDiscount(date);
+
+            details.put(CHRISTMAS_DISCOUNT, discountAmount);
         }
     }
 
@@ -99,16 +99,21 @@ public class Promotion {
         return DECEMBER_DISCOUNT.getAmount() * count;
     }
 
-    private void addChristmasDiscountDetails(StringBuilder details, int date) {
-        if (event.canApplyChristmasDiscount(date)) {
-            int discountAmount = calculateChristmasDiscount(date);
-
-            addPromotionDetail(details, CHRISTMAS_DISCOUNT.getTitle(), discountAmount);
-        }
-    }
-
     private int calculateChristmasDiscount(int date) {
         int discountAmountByDays = CHRISTMAS_INCREMENT.getAmount() * event.getDaysUntilChristmas(date);
         return DEFAULT_DISCOUNT.getAmount() + discountAmountByDays;
+    }
+
+    public StringBuilder getDetails() {
+        StringBuilder details = new StringBuilder();
+
+        this.details.forEach((eventType, discountAmount) -> {
+            details.append(String.format(PROMOTION_OUTPUT_FORMAT, eventType.getTitle(), discountAmount));
+        });
+        
+        if (details.length() == 0) {
+            return new StringBuilder(NO_CONTENT);
+        }
+        return details;
     }
 }
