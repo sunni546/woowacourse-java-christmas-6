@@ -66,7 +66,9 @@ public class Promotion {
         if (event.canApplyWeekendDiscount(order.getDate())) {
             int discountAmount = calculateDecemberDiscount(order.getOrders(), MAIN);
 
-            details.put(WEEKEND_DISCOUNT, discountAmount);
+            if (discountAmount > 0) {
+                details.put(WEEKEND_DISCOUNT, discountAmount);
+            }
         }
     }
 
@@ -74,7 +76,9 @@ public class Promotion {
         if (event.canApplyWeekdayDiscount(order.getDate())) {
             int discountAmount = calculateDecemberDiscount(order.getOrders(), DESSERT);
 
-            details.put(WEEKDAY_DISCOUNT, discountAmount);
+            if (discountAmount > 0) {
+                details.put(WEEKDAY_DISCOUNT, discountAmount);
+            }
         }
     }
 
