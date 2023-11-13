@@ -9,7 +9,7 @@ public enum EventType {
 
     private final String title;
 
-    private EventType(String title) {
+    EventType(String title) {
         this.title = title;
     }
 

@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class Promotion {
     private static final String NO_CONTENT = "없음\n";
-    private static final String PROMOTION_OUTPUT_FORMAT = "%s: -%,d원\n";
+    private static final String PROMOTION_OUTPUT_FORMAT = "%s: %,d원\n";
 
     private final Event event;
     private final HashMap<EventType, Integer> details;
@@ -108,12 +108,36 @@ public class Promotion {
         StringBuilder details = new StringBuilder();
 
         this.details.forEach((eventType, discountAmount) -> {
-            details.append(String.format(PROMOTION_OUTPUT_FORMAT, eventType.getTitle(), discountAmount));
+            details.append(String.format(PROMOTION_OUTPUT_FORMAT, eventType.getTitle(), -discountAmount));
         });
-        
+
         if (details.length() == 0) {
             return new StringBuilder(NO_CONTENT);
         }
         return details;
+    }
+
+    public int getTotalBenefitAmount() {
+        return calculateGiftMenuPrice() + calculateTotalDiscountAmount();
+    }
+
+    private int calculateGiftMenuPrice() {
+        if (event.hasGiftEvent()) {
+            return CHAMPAGNE.getPrice();
+        }
+        return 0;
+    }
+
+    private int calculateTotalDiscountAmount() {
+        int totalDiscountAmount = 0;
+
+        Set<EventType> eventTypes = details.keySet();
+        for (EventType eventType : eventTypes) {
+            if (eventType != GIFT_EVENT) {
+                totalDiscountAmount += details.get(eventType);
+            }
+        }
+
+        return totalDiscountAmount;
     }
 }

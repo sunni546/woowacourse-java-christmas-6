@@ -7,6 +7,7 @@ import static christmas.view.message.SystemMessage.INTRO;
 import static christmas.view.message.SystemMessage.ORDERED_MENU;
 import static christmas.view.message.SystemMessage.PREVIEW_EVENT_BENEFITS;
 import static christmas.view.message.SystemMessage.PROMOTION_DETAILS;
+import static christmas.view.message.SystemMessage.TOTAL_BENEFIT_AMOUNT;
 import static christmas.view.message.SystemMessage.UNDISCOUNTED_ORDER_TOTAL;
 
 public class OutputView {
@@ -30,8 +31,8 @@ public class OutputView {
         System.out.printf(ORDERED_MENU.getMessage(), menu);
     }
 
-    public static void printUndiscountedOrderTotal(int price) {
-        System.out.printf(UNDISCOUNTED_ORDER_TOTAL.getMessage(), price);
+    public static void printUndiscountedOrderTotal(int amount) {
+        System.out.printf(UNDISCOUNTED_ORDER_TOTAL.getMessage(), amount);
     }
 
     public static void printGiftMenu(String gift) {
@@ -40,5 +41,9 @@ public class OutputView {
 
     public static void printPromotionDetails(StringBuilder promotionDetails) {
         System.out.printf(PROMOTION_DETAILS.getMessage(), promotionDetails);
+    }
+
+    public static void printTotalBenefitAmount(int amount) {
+        System.out.printf(TOTAL_BENEFIT_AMOUNT.getMessage(), -amount);
     }
 }

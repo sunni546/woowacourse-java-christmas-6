@@ -20,5 +20,6 @@ public class EventPlanner {
         Promotion promotion = new Promotion(order);
         OutputView.printGiftMenu(promotion.getGiftMenu());
         OutputView.printPromotionDetails(promotion.getDetails());
+        OutputView.printTotalBenefitAmount(promotion.getTotalBenefitAmount());
     }
 }
