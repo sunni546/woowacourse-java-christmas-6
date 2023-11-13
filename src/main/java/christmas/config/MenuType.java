@@ -1,4 +1,4 @@
-package christmas;
+package christmas.config;
 
 import java.util.Arrays;
 
