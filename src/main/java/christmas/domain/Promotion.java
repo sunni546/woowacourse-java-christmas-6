@@ -2,7 +2,9 @@ package christmas.domain;
 
 import static christmas.config.EventType.GIFT_EVENT;
 import static christmas.config.EventType.SPECIAL_DISCOUNT;
+import static christmas.config.EventType.WEEKDAY_DISCOUNT;
 import static christmas.config.EventType.WEEKEND_DISCOUNT;
+import static christmas.config.MenuGroup.DESSERT;
 import static christmas.config.MenuGroup.MAIN;
 import static christmas.config.MenuType.CHAMPAGNE;
 import static christmas.domain.Order.ORDER_OUTPUT_FORMAT;
@@ -29,6 +31,7 @@ public class Promotion {
         addGiftEventDetails(details, event);
         addSpecialDiscountDetails(details, event, date);
         addWeekendDiscountDetails(details, event, date, order);
+        addWeekdayDiscountDetails(details, event, date, order);
 
         this.event = event;
         this.details = details;
@@ -69,6 +72,13 @@ public class Promotion {
         if (event.canApplyWeekendDiscount(date)) {
             int discountAmount = calculateDiscount(order.getOrders(), MAIN);
             addPromotionDetail(details, WEEKEND_DISCOUNT.getTitle(), discountAmount);
+        }
+    }
+
+    private void addWeekdayDiscountDetails(StringBuilder details, Event event, int date, Order order) {
+        if (event.canApplyWeekdayDiscount(date)) {
+            int discountAmount = calculateDiscount(order.getOrders(), DESSERT);
+            addPromotionDetail(details, WEEKDAY_DISCOUNT.getTitle(), discountAmount);
         }
     }
 

@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import static christmas.config.DayGroup.STAR;
+import static christmas.config.DayGroup.WEEKDAY;
 import static christmas.config.DayGroup.WEEKEND;
 
 public class Event {
@@ -31,6 +32,13 @@ public class Event {
     public boolean canApplyWeekendDiscount(int date) {
         if (canApplyEvent()) {
             return WEEKEND.hasDate(date);
+        }
+        return false;
+    }
+
+    public boolean canApplyWeekdayDiscount(int date) {
+        if (canApplyEvent()) {
+            return WEEKDAY.hasDate(date);
         }
         return false;
     }
