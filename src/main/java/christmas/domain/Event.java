@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import static christmas.config.DayGroup.STAR;
+import static christmas.config.DayGroup.WEEKEND;
 
 public class Event {
     private static final int EVENT_THRESHOLD_AMOUNT = 10000;
@@ -23,6 +24,13 @@ public class Event {
     public boolean canApplySpecialDiscount(int date) {
         if (canApplyEvent()) {
             return STAR.hasDate(date);
+        }
+        return false;
+    }
+
+    public boolean canApplyWeekendDiscount(int date) {
+        if (canApplyEvent()) {
+            return WEEKEND.hasDate(date);
         }
         return false;
     }

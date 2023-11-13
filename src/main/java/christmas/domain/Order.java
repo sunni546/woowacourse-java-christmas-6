@@ -53,4 +53,8 @@ public class Order {
 
         return undiscountedOrderTotal;
     }
+
+    public HashMap<MenuType, Integer> getOrders() {
+        return orders;
+    }
 }

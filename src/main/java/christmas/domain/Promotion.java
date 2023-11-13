@@ -2,13 +2,21 @@ package christmas.domain;
 
 import static christmas.config.EventType.GIFT_EVENT;
 import static christmas.config.EventType.SPECIAL_DISCOUNT;
+import static christmas.config.EventType.WEEKEND_DISCOUNT;
+import static christmas.config.MenuGroup.MAIN;
 import static christmas.config.MenuType.CHAMPAGNE;
 import static christmas.domain.Order.ORDER_OUTPUT_FORMAT;
+
+import christmas.config.MenuGroup;
+import christmas.config.MenuType;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Promotion {
     private static final String NO_CONTENT = "없음\n";
     private static final String PROMOTION_OUTPUT_FORMAT = "%s: -%,d원\n";
     private static final int SPECIAL_DISCOUNT_AMOUNT = 1000;
+    private static final int DECEMBER_DISCOUNT_AMOUNT = 2023;
 
     private final Event event;
     private final StringBuilder details;
@@ -20,6 +28,7 @@ public class Promotion {
 
         addGiftEventDetails(details, event);
         addSpecialDiscountDetails(details, event, date);
+        addWeekendDiscountDetails(details, event, date, order);
 
         this.event = event;
         this.details = details;
@@ -54,5 +63,25 @@ public class Promotion {
         if (event.canApplySpecialDiscount(date)) {
             addPromotionDetail(details, SPECIAL_DISCOUNT.getTitle(), SPECIAL_DISCOUNT_AMOUNT);
         }
+    }
+
+    private void addWeekendDiscountDetails(StringBuilder details, Event event, int date, Order order) {
+        if (event.canApplyWeekendDiscount(date)) {
+            int discountAmount = calculateDiscount(order.getOrders(), MAIN);
+            addPromotionDetail(details, WEEKEND_DISCOUNT.getTitle(), discountAmount);
+        }
+    }
+
+    private int calculateDiscount(HashMap<MenuType, Integer> orders, MenuGroup menuGroup) {
+        int count = 0;
+
+        Set<MenuType> menuTypes = orders.keySet();
+        for (MenuType menuType : menuTypes) {
+            if (MenuGroup.findByMenuType(menuType) == menuGroup) {
+                count += orders.get(menuType);
+            }
+        }
+
+        return DECEMBER_DISCOUNT_AMOUNT * count;
     }
 }
