@@ -6,15 +6,9 @@ import static christmas.config.DayGroup.STAR;
 import static christmas.config.DayGroup.WEEKDAY;
 import static christmas.config.DayGroup.WEEKEND;
 
-public class Event {
+public record Event(int orderTotal) {
     private static final int CHRISTMAS_EVENT_START_DATE = 1;
     private static final int CHRISTMAS_EVENT_END_DATE = 25;
-
-    private final int orderTotal;
-
-    public Event(int orderTotal) {
-        this.orderTotal = orderTotal;
-    }
 
     public boolean hasGiftEvent() {
         return orderTotal > GIFT_THRESHOLD.getAmount();
@@ -58,9 +52,5 @@ public class Event {
 
     public int getDaysUntilChristmas(int date) {
         return date - CHRISTMAS_EVENT_START_DATE;
-    }
-
-    public int getOrderTotal() {
-        return orderTotal;
     }
 }

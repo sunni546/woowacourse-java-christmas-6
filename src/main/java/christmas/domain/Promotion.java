@@ -158,6 +158,6 @@ public class Promotion {
     }
 
     public int getDiscountedPaymentTotal() {
-        return event.getOrderTotal() - calculateTotalDiscountAmount();
+        return event.orderTotal() - calculateTotalDiscountAmount();
     }
 }
