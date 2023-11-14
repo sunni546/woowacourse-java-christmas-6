@@ -56,4 +56,8 @@ public class OutputView {
     public static void printDecemberEventBadge(String badge) {
         System.out.printf(DECEMBER_EVENT_BADGE.getMessage(), badge);
     }
+
+    public static void printMessage(String message) {
+        System.out.println(message);
+    }
 }
