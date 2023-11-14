@@ -25,9 +25,7 @@ public class EventPlanner {
         OutputView.printPromotionDetails(promotion.getDetails());
         OutputView.printTotalBenefitAmount(promotion.getTotalBenefitAmount());
 
-        int discountedPaymentTotal = order.getUndiscountedOrderTotal() - promotion.calculateTotalDiscountAmount();
-        OutputView.printDiscountedPaymentTotal(discountedPaymentTotal);
-
+        OutputView.printDiscountedPaymentTotal(promotion.getDiscountedPaymentTotal());
         OutputView.printDecemberEventBadge(promotion.getDecemberEventBadge());
     }
 }

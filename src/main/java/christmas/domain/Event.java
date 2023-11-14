@@ -59,4 +59,8 @@ public class Event {
     public int getDaysUntilChristmas(int date) {
         return date - CHRISTMAS_EVENT_START_DATE;
     }
+
+    public int getOrderTotal() {
+        return orderTotal;
+    }
 }

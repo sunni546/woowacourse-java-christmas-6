@@ -134,7 +134,7 @@ public class Promotion {
         return 0;
     }
 
-    public int calculateTotalDiscountAmount() {
+    private int calculateTotalDiscountAmount() {
         int totalDiscountAmount = 0;
 
         Set<EventType> eventTypes = details.keySet();
@@ -155,5 +155,9 @@ public class Promotion {
         }
 
         return NO_CONTENT;
+    }
+
+    public int getDiscountedPaymentTotal() {
+        return event.getOrderTotal() - calculateTotalDiscountAmount();
     }
 }
