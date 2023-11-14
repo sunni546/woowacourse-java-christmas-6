@@ -1,11 +1,12 @@
 package christmas.view;
 
+import static christmas.view.message.ErrorMessage.INVALID_DATE;
+
 import camp.nextstep.edu.missionutils.Console;
 import christmas.validator.DateValidator;
 
 public class InputView {
     public static int readDate() {
-        OutputView.printIntro();
         OutputView.printInputDate();
 
         while (true) {
@@ -14,7 +15,7 @@ public class InputView {
                 DateValidator.validate(date);
                 return Integer.parseInt(date);
             } catch (IllegalArgumentException e) {
-                OutputView.printMessage(e.getMessage());
+                OutputView.printMessage(INVALID_DATE.getErrorMessage());
             }
         }
     }

@@ -1,19 +1,15 @@
 package christmas.validator;
 
-import christmas.view.message.ErrorMessage;
-
 public class InputValidator {
-    public static boolean validateEmpty(String input) {
-        return !input.isEmpty();
+    public static void validateEmpty(String input) {
+        if (input.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
     }
 
-    public static boolean validateDigit(String input) {
-        return input.chars().allMatch(Character::isDigit);
-    }
-
-    public static void validateBoolean(boolean condition, ErrorMessage errorMessage) {
-        if (!condition) {
-            throw new IllegalArgumentException(errorMessage.getErrorMessage());
+    public static void validateDigit(String input) {
+        if (input.chars().anyMatch(ch -> !Character.isDigit(ch))) {
+            throw new IllegalArgumentException();
         }
     }
 }

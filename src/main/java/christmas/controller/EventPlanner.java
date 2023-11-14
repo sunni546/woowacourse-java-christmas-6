@@ -7,6 +7,8 @@ import christmas.view.OutputView;
 
 public class EventPlanner {
     public void run() {
+        OutputView.printIntro();
+
         Order order = new Order(InputView.readDate(), InputView.readMenu());
 
         OutputView.printDate(order.getDate());
