@@ -38,8 +38,8 @@ public class Order {
     public StringBuilder getOrderedMenu() {
         StringBuilder orderedMenu = new StringBuilder();
 
-        orders.forEach((menuType, number) -> {
-            orderedMenu.append(String.format(ORDER_OUTPUT_FORMAT, menuType.getName(), number));
+        orders.forEach((menuType, quantity) -> {
+            orderedMenu.append(String.format(ORDER_OUTPUT_FORMAT, menuType.getName(), quantity));
         });
 
         return orderedMenu;
