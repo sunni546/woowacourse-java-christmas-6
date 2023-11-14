@@ -1,33 +1,34 @@
 package christmas.domain;
 
+import static christmas.config.SeparatorType.COMMA;
+import static christmas.config.SeparatorType.HYPHEN;
+import static christmas.config.SeparatorType.LINE;
+
 import christmas.config.MenuType;
 import java.util.HashMap;
 import java.util.Set;
 
 public class Order {
-    private static final String MENU_SEPARATOR = ",";
-    private static final String ORDER_SEPARATOR = "-";
-    public static final String LINE_SEPARATOR = System.lineSeparator();
-    public static final String ORDER_OUTPUT_FORMAT = "%s %d개" + LINE_SEPARATOR;
+    public static final String ORDER_OUTPUT_FORMAT = "%s %d개" + LINE.getSymbol();
 
     private final HashMap<MenuType, Integer> orders;
     private final int date;
 
-    public Order(int date, String menu) {
+    public Order(int date, String orderedMenu) {
         this.date = date;
-        this.orders = makeOrders(menu);
+        this.orders = makeOrders(orderedMenu);
     }
 
     public int getDate() {
         return date;
     }
 
-    public HashMap<MenuType, Integer> makeOrders(String orderedMenu) {
+    private HashMap<MenuType, Integer> makeOrders(String orderedMenu) {
         HashMap<MenuType, Integer> orders = new HashMap<>();
 
-        String[] menus = orderedMenu.split(MENU_SEPARATOR);
+        String[] menus = orderedMenu.split(COMMA.getSymbol());
         for (String menu : menus) {
-            String[] order = menu.split(ORDER_SEPARATOR);
+            String[] order = menu.split(HYPHEN.getSymbol());
             orders.put(MenuType.findByName(order[0]), Integer.parseInt(order[1]));
         }
 

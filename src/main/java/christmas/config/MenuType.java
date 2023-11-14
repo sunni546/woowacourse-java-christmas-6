@@ -28,8 +28,7 @@ public enum MenuType {
         return Arrays.stream(values())
                 .filter(v -> name.equals(v.name))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 메뉴판에 없는 메뉴"));
-        // TODO: 메뉴판에 없는 메뉴인 경우 예외처리 O, 에러메세지 출력 X
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     public String getName() {

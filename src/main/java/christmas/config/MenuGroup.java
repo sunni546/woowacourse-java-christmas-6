@@ -20,8 +20,7 @@ public enum MenuGroup {
         return Arrays.stream(MenuGroup.values())
                 .filter(menuGroup -> menuGroup.hasMenuType(menuType))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 메뉴판에 없는 메뉴"));
-        // TODO: 메뉴판에 없는 메뉴인 경우 예외처리 O, 에러메세지 출력 X
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     public boolean hasMenuType(MenuType menuType) {
