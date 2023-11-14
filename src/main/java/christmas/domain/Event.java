@@ -11,11 +11,11 @@ public record Event(int orderTotal) {
     private static final int CHRISTMAS_EVENT_END_DATE = 25;
 
     public boolean hasGiftEvent() {
-        return orderTotal > GIFT_THRESHOLD.getAmount();
+        return orderTotal >= GIFT_THRESHOLD.getAmount();
     }
 
     private boolean canApplyEvent() {
-        return orderTotal > EVENT_THRESHOLD.getAmount();
+        return orderTotal >= EVENT_THRESHOLD.getAmount();
     }
 
     public boolean canApplySpecialDiscount(int date) {
