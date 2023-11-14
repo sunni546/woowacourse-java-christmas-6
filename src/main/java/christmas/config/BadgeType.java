@@ -13,7 +13,7 @@ public enum BadgeType {
         this.price = price;
     }
 
-    public static BadgeType determineBadgeByPrice(double price) {
+    public static BadgeType determineBadgeByPrice(int price) {
         if (price >= SANTA.price) {
             return SANTA;
         }

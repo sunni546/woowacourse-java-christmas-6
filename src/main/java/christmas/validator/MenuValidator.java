@@ -26,7 +26,7 @@ public class MenuValidator {
         validateOrderQuantityLimit(orders);
     }
 
-    public static void validateMenuFormat(String orderedMenu) {
+    private static void validateMenuFormat(String orderedMenu) {
         if (!isMenuFormatValid(orderedMenu)) {
             throw new IllegalArgumentException();
         }

@@ -23,7 +23,7 @@ public enum MenuGroup {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public boolean hasMenuType(MenuType menuType) {
+    private boolean hasMenuType(MenuType menuType) {
         return menus.stream()
                 .anyMatch(menu -> menu == menuType);
     }
