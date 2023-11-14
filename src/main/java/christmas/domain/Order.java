@@ -7,7 +7,8 @@ import java.util.Set;
 public class Order {
     private static final String MENU_SEPARATOR = ",";
     private static final String ORDER_SEPARATOR = "-";
-    public static final String ORDER_OUTPUT_FORMAT = "%s %d개\n";
+    public static final String LINE_SEPARATOR = System.lineSeparator();
+    public static final String ORDER_OUTPUT_FORMAT = "%s %d개" + LINE_SEPARATOR;
 
     private final HashMap<MenuType, Integer> orders;
     private final int date;

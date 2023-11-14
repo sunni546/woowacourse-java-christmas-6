@@ -11,6 +11,7 @@ import static christmas.config.EventType.WEEKEND_DISCOUNT;
 import static christmas.config.MenuGroup.DESSERT;
 import static christmas.config.MenuGroup.MAIN;
 import static christmas.config.MenuType.CHAMPAGNE;
+import static christmas.domain.Order.LINE_SEPARATOR;
 import static christmas.domain.Order.ORDER_OUTPUT_FORMAT;
 
 import christmas.config.BadgeType;
@@ -21,8 +22,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class Promotion {
-    private static final String NO_CONTENT = "없음\n";
-    private static final String PROMOTION_OUTPUT_FORMAT = "%s: %,d원\n";
+    private static final String NO_CONTENT = "없음" + LINE_SEPARATOR;
+    private static final String PROMOTION_OUTPUT_FORMAT = "%s: %,d원" + LINE_SEPARATOR;
 
     private final Event event;
     private final HashMap<EventType, Integer> details;
@@ -150,7 +151,7 @@ public class Promotion {
         BadgeType badge = BadgeType.determineBadgeByPrice(getTotalBenefitAmount());
 
         if (badge != null) {
-            return badge.getName() + "\n";
+            return badge.getName() + LINE_SEPARATOR;
         }
 
         return NO_CONTENT;
