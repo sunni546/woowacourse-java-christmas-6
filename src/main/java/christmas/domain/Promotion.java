@@ -24,6 +24,7 @@ import java.util.Set;
 public class Promotion {
     private static final String NO_CONTENT = "없음" + LINE.getSymbol();
     private static final String PROMOTION_OUTPUT_FORMAT = "%s: %,d원" + LINE.getSymbol();
+    private static final int DEFAULT_GIFT_QUANTITY = 1;
 
     private final Event event;
     private final HashMap<EventType, Integer> details;
@@ -35,12 +36,12 @@ public class Promotion {
 
     public String getGiftMenu() {
         if (event.hasGiftEvent()) {
-            return String.format(ORDER_OUTPUT_FORMAT, CHAMPAGNE.getName(), 1);
+            return String.format(ORDER_OUTPUT_FORMAT, CHAMPAGNE.getName(), DEFAULT_GIFT_QUANTITY);
         }
         return NO_CONTENT;
     }
 
-    public HashMap<EventType, Integer> makeDetails(Order order) {
+    private HashMap<EventType, Integer> makeDetails(Order order) {
         HashMap<EventType, Integer> details = new HashMap<>();
 
         makeGiftEventDetail(details);
@@ -147,6 +148,10 @@ public class Promotion {
         return totalDiscountAmount;
     }
 
+    public int getDiscountedPaymentTotal() {
+        return event.orderTotal() - calculateTotalDiscountAmount();
+    }
+
     public String getDecemberEventBadge() {
         BadgeType badge = BadgeType.determineBadgeByPrice(getTotalBenefitAmount());
 
@@ -155,9 +160,5 @@ public class Promotion {
         }
 
         return NO_CONTENT;
-    }
-
-    public int getDiscountedPaymentTotal() {
-        return event.orderTotal() - calculateTotalDiscountAmount();
     }
 }
