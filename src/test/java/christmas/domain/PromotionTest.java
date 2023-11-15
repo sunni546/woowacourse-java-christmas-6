@@ -5,6 +5,7 @@ import static christmas.config.EventType.CHRISTMAS_DISCOUNT;
 import static christmas.config.EventType.GIFT_EVENT;
 import static christmas.config.EventType.SPECIAL_DISCOUNT;
 import static christmas.config.EventType.WEEKDAY_DISCOUNT;
+import static christmas.config.EventType.WEEKEND_DISCOUNT;
 import static christmas.config.MenuType.CHAMPAGNE;
 import static christmas.config.SeparatorType.LINE;
 import static christmas.domain.Order.ORDER_OUTPUT_FORMAT;
@@ -32,13 +33,31 @@ class PromotionTest {
     @Test
     void getDetails() {
         StringBuilder details = promotion.getDetails();
-        
+
         assertThat(details.toString()).contains(
                 CHRISTMAS_DISCOUNT.getTitle(),
                 WEEKDAY_DISCOUNT.getTitle(),
                 SPECIAL_DISCOUNT.getTitle(),
                 GIFT_EVENT.getTitle()
         );
+    }
+
+    @DisplayName("주말 할인 미적용 - 메인 메뉴가 없는 경우")
+    @Test
+    void testNoWeekendDiscountWithoutMainMenu() {
+        Promotion promotion = new Promotion(new Order(9, "초코케이크-1,제로콜라-1"));
+        StringBuilder details = promotion.getDetails();
+
+        assertThat(details.toString()).doesNotContain(WEEKEND_DISCOUNT.getTitle());
+    }
+
+    @DisplayName("평일 할인 미적용 - 디저트 메뉴가 없는 경우")
+    @Test
+    void testNoWeekdayDiscountWithoutDessertMenu() {
+        Promotion promotion = new Promotion(new Order(10, "티본스테이크-2,크리스마스파스타-1"));
+        StringBuilder details = promotion.getDetails();
+
+        assertThat(details.toString()).doesNotContain(WEEKDAY_DISCOUNT.getTitle());
     }
 
     @DisplayName("총혜택 금액 얻기")
