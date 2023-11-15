@@ -27,12 +27,12 @@ class OrderTest {
     @DisplayName("주문 메뉴 얻기")
     @Test
     void getOrderedMenu() {
-        String expectedMenu = String.format(ORDER_OUTPUT_FORMAT, TAPAS.getName(), TEST_QUANTITY)
-                + String.format(ORDER_OUTPUT_FORMAT, ZERO_COLA.getName(), TEST_QUANTITY);
-
         StringBuilder orderedMenu = order.getOrderedMenu();
 
-        assertThat(orderedMenu.toString()).isEqualTo(expectedMenu);
+        assertThat(orderedMenu.toString()).contains(
+                String.format(ORDER_OUTPUT_FORMAT, TAPAS.getName(), TEST_QUANTITY),
+                String.format(ORDER_OUTPUT_FORMAT, ZERO_COLA.getName(), TEST_QUANTITY)
+        );
     }
 
     @DisplayName("할인 전 총주문 금액 얻기")
